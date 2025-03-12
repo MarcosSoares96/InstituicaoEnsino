@@ -1,0 +1,109 @@
+﻿@model IEnumerable<InstituicaoEnsino.Models.Instituicao>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a asp-action="Create">Criar nova instituição</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InstituicaoID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Endereco)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstituicaoID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Endereco)
+            </td>
+            <td>
+                @* @Html.ActionLink("Edit", "Edit", new { id = item.InstituicaoID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.InstituicaoID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.InstituicaoID }) *@
+                <a asp-action="Edit" asp-route-id="@item.InstituicaoID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.InstituicaoID">Details </a> |
+                <a asp-action="Delete" asp-route-id="@item.InstituicaoID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
+
+@*Obs:
+    A diferença entre essas duas formas de criar links no ASP.NET MVC está no uso de Tag Helpers e HTML Helpers. 
+    Vamos analisar as duas opções:
+
+    1. Tag Helpers (<a asp-action="...">)
+
+        <a asp-action="Edit" asp-route-id="@item.InstituicaoID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.InstituicaoID">Details </a> |
+        <a asp-action="Delete" asp-route-id="@item.InstituicaoID">Delete</a>
+
+    - Tag Helpers são um recurso do ASP.NET Core que permite gerar HTML dinâmico diretamente no código Razor. 
+       Eles são baseados em atributos HTML e são mais integrados ao Razor e à renderização de páginas.
+    - O atributo asp-action define qual ação do controlador será chamada quando o link for clicado.
+    - O atributo asp-route-id vincula o valor do parâmetro id na URL à propriedade InstituicaoID do item, o que, 
+       nesse caso, cria um parâmetro de URL chamado id com o valor de item.InstituicaoID.
+    - Essa abordagem é mais moderna e recomendada no ASP.NET Core, pois é mais declarativa e fácil de ler.
+
+    2. HTML Helpers (@Html.ActionLink)
+
+        @Html.ActionLink("Edit", "Edit", new { id = item.InstituicaoID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.InstituicaoID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.InstituicaoID })
+    
+    - HTML Helpers são métodos de ajuda tradicionais do ASP.NET MVC que geram HTML dinâmico. No caso do @Html.ActionLink, 
+    ele cria um link (<a>) com o texto que você deseja (como "Edit", "Details", "Delete") e define a URL com base no 
+    nome da ação e no controlador.
+    - O método ActionLink recebe três parâmetros:
+        * O texto do link.
+        * O nome da ação (por exemplo, "Edit", "Details", "Delete").
+        * Um objeto anônimo que define os parâmetros da URL (neste caso, id = item.InstituicaoID).
+    - Esta abordagem é mais comum no ASP.NET MVC tradicional, mas também funciona no ASP.NET Core.
+    
+    Resumo das diferenças:
+    
+    1. Sintaxe:
+        - Tag Helpers (<a asp-action="...">) usam uma sintaxe mais declarativa e baseada em atributos HTML, enquanto os HTML 
+          Helpers (@Html.ActionLink) são baseados em métodos no código Razor.
+    
+    2. Contexto de Uso:
+        - Tag Helpers são mais modernos e específicos do ASP.NET Core. Eles tornam o código mais fácil de entender e modificar.
+        - HTML Helpers são usados tanto no ASP.NET MVC quanto no ASP.NET Core, mas são uma abordagem mais antiga, baseada em código.
+    
+    3. Renderização de HTML:
+        - Ambos geram um link HTML similar (com um <a>), mas as tag helpers são mais poderosas e flexíveis no ASP.NET Core, 
+          especialmente com relação a roteamento e vinculação de dados.
+    
+    Em resumo, se você estiver usando ASP.NET Core, a abordagem com Tag Helpers é preferível, pois ela é mais integrada ao 
+    framework e oferece uma maneira mais limpa e intuitiva de gerar links. Já o HTML Helper é mais tradicional e pode ser útil em 
+    projetos que não estão usando ASP.NET Core ou quando você já está familiarizado com ele.
+*@
